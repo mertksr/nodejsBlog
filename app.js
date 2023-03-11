@@ -17,8 +17,11 @@ app.use(express.json())
     /*** TEMPLATE ENGİNE'I EJS OLARAK AYARLADIK ***/
 app.set("view engine", "ejs");
 /*******/
-app.get("/", (req, res, ) => {
-    res.render('index')
+app.get("/", async(req, res, ) => {
+    const posts = await Post.find({});
+    res.render('index', {
+        posts
+    });
 });
 app.get("/about", (req, res, ) => {
     res.render('about')
