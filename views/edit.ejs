@@ -13,7 +13,7 @@
                     <div class="row">
                         <div class="col-lg-8 col-md-10 mx-auto">
                             <div class="page-heading">
-                                <h1>Add New Post</h1>
+                                <h1>Edit Post</h1>
 
                             </div>
                         </div>
@@ -25,28 +25,22 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8 col-md-10 mx-auto">
-                        <form method="POST" action="/post" encType="multipart/form-data">
+                        <form method="POST" action="/post/<%= post._id %>?_method=PUT" encType="multipart/form-data">
                             <div class="control-group">
                                 <div class="form-group floating-label-form-group controls">
                                     <label>Post Title</label>
-                                    <input type="text" class="form-control" name="postName" placeholder="Name" id="name" required data-validation-required-message="Please enter your name.">
+                                    <input type="text" class="form-control" value="<%= post.postName %>" name="postName" placeholder="Name" id="name" required data-validation-required-message="Please enter your name.">
                                     <p class="help-block text-danger"></p>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <div class="form-group floating-label-form-group controls">
                                     <label>Post Detail</label>
-                                    <textarea rows="5" class="form-control" name="postDetail" placeholder="Message" id="message" required data-validation-required-message="Please enter a message."></textarea>
+                                    <textarea rows="5" class="form-control" name="postDetail" placeholder="Message" id="message" required data-validation-required-message="Please enter a message."><%= post.postDetail %></textarea>
                                     <p class="help-block text-danger"></p>
                                 </div>
                             </div>
-                            <div class="control-group">
-                                <div class="form-group floating-label-form-group controls">
-                                    <label>Post Image</label>
-                                    <input type="file" class="form-control" name="postImage" required data-validation-required-message="Please enter your name.">
-                                    <p class="help-block text-danger"></p>
-                                </div>
-                            </div>
+
                             <br>
                             <div id="success"></div>
                             <button type="submit" class="btn btn-primary" id="sendMessageButton">Send</button>

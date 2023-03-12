@@ -3,13 +3,15 @@ const mongoose = require('mongoose');
 const ejs = require('ejs');
 const fileUpload = require('express-fileupload');
 const fs = require('fs');
-
+const methodOverride = require('method-override')
 const Post = require('./models/Post')
 
 
-
+/* MIDDLEWARES */
 const app = express();
 app.use(fileUpload());
+app.use(methodOverride('_method'));
+/**************/
 
 mongoose.connect('mongodb://localhost/pcat-test-db');
 
@@ -30,8 +32,8 @@ app.get("/", async(req, res, ) => {
     });
 });
 
-app.get("/post/:postid", async(req, res, ) => {
-    const post = await Post.findById(req.params.postid);
+app.get("/post/:id", async(req, res, ) => {
+    const post = await Post.findById(req.params.id);
     res.render('post', {
         post
     })
@@ -43,22 +45,34 @@ app.get("/about", (req, res, ) => {
 app.get("/add-post", (req, res, ) => {
     res.render('add-post')
 });
+app.get("/post/edit/:id", async(req, res, ) => {
+    const post = await Post.findOne({ _id: req.params.id })
+    res.render('edit', {
+        post
+    })
+});
 app.get("/post", (req, res, ) => {
     res.render('post')
 });
+app.put("/post/:id", async(req, res, ) => {
+    const post = await Post.findOne({ _id: req.params.id });
+    post.postName = req.body.postName;
+    post.postDetail = req.body.postDetail;
+    post.save();
+
+    res.redirect(`/post/${req.params.id}`);
+});
+
+/************ PHOTO UPLOAD **********/
 //uploads klasörü yoksa oluştur
 const uploadDir = 'public/uploads';
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir);
 }
-
-app.post('/posts', async(req, res) => {
-
+/****/
+app.post('/post', async(req, res) => {
     let uploadedImage = req.files.postImage;
     let uploadPath = __dirname + "/public/uploads/" + uploadedImage.name;
-
-
-
     uploadedImage.mv(uploadPath, async() => {
         await Post.create({
             ...req.body,
@@ -70,6 +84,7 @@ app.post('/posts', async(req, res) => {
 
     res.redirect('/')
 });
+/******************************/
 
 const port = 3000;
 app.listen(port, () => {
