@@ -9,7 +9,8 @@ const PostSchema = new Schema({
     dateCreated: {
         type: Date,
         default: Date.now,
-    }
+    },
+    postImage: String
 })
 
 const Post = mongoose.model('posts', PostSchema);
