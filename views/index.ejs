@@ -44,7 +44,27 @@
 
                                 <!-- Pager -->
                                 <div class="clearfix">
-                                    <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
+                                    <% if (pages > 0) { %>
+                                        <ul class="nav tm-paging-links">
+                                            <% for (let i=1; i <= pages; i++) { %>
+                                                <%   if (i == current) { %>
+                                                    <li class="nav-item">
+                                                        <a href="/?page=<%= i %>" style="color:rgb(94, 129, 182)" class="nav-link tm-paging-link">
+                                                            <%= i %>
+                                                        </a>
+                                                    </li>
+                                                    <% } else if (i < pages) { %>
+                                                        <li class="nav-item">
+                                                            <a href="/?page=<%= i %>" class="nav-link tm-paging-link">
+                                                                <%= i %>
+                                                            </a>
+                                                        </li>
+                                                        <%  } else { %>
+                                                            <li class="nav-item"><a href="/?page=<%= i %>" class="nav-link tm-paging-link">></a></li>
+                                                            <%  } %>
+                                                                <%  } %>
+                                        </ul>
+                                        <% } %>
                                 </div>
                     </div>
                 </div>
