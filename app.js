@@ -10,7 +10,9 @@ const Post = require('./models/Post')
 /* MIDDLEWARES */
 const app = express();
 app.use(fileUpload());
-app.use(methodOverride('_method'));
+app.use(methodOverride('_method', {
+    methods: ['POST', 'GET']
+}));
 /**************/
 
 mongoose.connect('mongodb://localhost/pcat-test-db');
@@ -61,6 +63,15 @@ app.put("/post/:id", async(req, res, ) => {
     post.save();
 
     res.redirect(`/post/${req.params.id}`);
+});
+
+app.delete("/post/:id", async(req, res, ) => {
+    const post = await Post.findOne({ _id: req.params.id });
+    let deletedImage = __dirname + '/public' + post.postImage;
+    fs.unlinkSync(deletedImage);
+    await Post.findByIdAndRemove(req.params.id);
+
+    res.redirect('/');
 });
 
 /************ PHOTO UPLOAD **********/
