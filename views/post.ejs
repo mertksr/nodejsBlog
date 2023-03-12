@@ -41,7 +41,7 @@
                                 <%= post.dateCreated %>
                             </p>
                             <a href="/post/edit/<%= post._id %>" class="btn btn-success">Edit</a>
-                            <a href="/post/<%= post._id %>?_method=DELETE" class="btn btn-danger">Delete</a>
+                            <a href="/post/<%= post._id %>?_method=DELETE" onclick="return confirm('Are you sure to delete')" class="btn btn-danger">Delete</a>
 
                         </div>
                     </div>
